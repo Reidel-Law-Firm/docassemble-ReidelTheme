@@ -7,3 +7,8 @@ default screen parts:
     <img height="50px" class="ma_icon" src="${ reidel_logo.url_for() }"><div class="title"></div>
   title url: |
     https://www.reidellawfirm.com/
+---
+features:
+  bootstrap theme: bootstrap.min.css
+  css:
+    - styles.css     
