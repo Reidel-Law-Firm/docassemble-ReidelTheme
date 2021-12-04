@@ -10,5 +10,5 @@ include:
 Edit your [config.yml](https://docassemble.org/docs/config.html#favicon) and add the following lines:
 
 ```yaml
-favicon: docassemble.abcincorporated:data/static/favicon
+favicon: docassemble.ReidelTheme:data/static/favicon
 ```
