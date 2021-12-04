@@ -1,0 +1,9 @@
+---
+objects:
+  - reidel_logo: DAStaticFile.using(filename="Reidel_logo.svg")
+---
+default screen parts:
+  logo: |
+    <img height="50px" class="ma_icon" src="${ reidel_logo.url_for() }"><div class="title"></div>
+  title url: |
+    https://www.reidellawfirm.com/
