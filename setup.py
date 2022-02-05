@@ -43,7 +43,7 @@ def find_package_data(where='.', package='', exclude=standard_exclude, exclude_d
     return out
 
 setup(name='docassemble.ReidelTheme',
-      version='1.1.1',
+      version='1.2.0',
       description=('Theme for Reidel Law Firm'),
       long_description='## Include this theme in your interview\r\n\r\n```yaml\r\ninclude: \r\n  - docassemble.ReidelTheme:theme.yml\r\n```\r\n\r\n## Use the favicon\r\n\r\nEdit your [config.yml](https://docassemble.org/docs/config.html#favicon) and add the following lines:\r\n\r\n```yaml\r\nfavicon: docassemble.ReidelTheme:data/static/favicon\r\n```',
       long_description_content_type='text/markdown',
@@ -53,7 +53,7 @@ setup(name='docassemble.ReidelTheme',
       url='https://www.reidellawfirm.com/',
       packages=find_packages(),
       namespace_packages=['docassemble'],
-      install_requires=[],
+      install_requires=['docassemble.AssemblyLine>=2.10.0', 'webdavclient3>=3.14.6'],
       zip_safe=False,
       package_data=find_package_data(where='docassemble/ReidelTheme/', package='docassemble.ReidelTheme'),
      )
