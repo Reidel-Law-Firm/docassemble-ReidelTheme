@@ -21,7 +21,7 @@ def get_new_bundle_path_name(bundle:ALDocumentBundle, user:Union[Individual, str
   return space_to_underscore(f"{os.path.splitext(bundle.filename)[0]}_{current_datetimestamp}_{user_string}")
 
 def publish_to_webdav(bundle:ALDocumentBundle, 
-                      path:str = "/",
+                      path:str = None,
                       new_folder:str = None,
                       key:str = "final",
                       config:str = "webdav",
@@ -40,7 +40,8 @@ def publish_to_webdav(bundle:ALDocumentBundle,
     webdav_hostname: https://some.webdav_server.com/dav
     webdav_login: some_username
     webdav_password: some_password
-  ```
+    path: /files/user/path
+  ```  
   """
   # Prevent Docassemble from running this multiple times (idempotency)
   for document in bundle:
@@ -48,17 +49,22 @@ def publish_to_webdav(bundle:ALDocumentBundle,
     document.filename
     
   if not webdav_login and config:
-    config = get_config(config, {})   
+    config = get_config(config, {})
+    default_path = config.get("default_path", "/")
   else:
     config = {"webdav_hostname": webdav_hostname,
               "webdav_login": webdav_login,
               "webdav_password": webdav_password
              }
+    default_path = "/"
+  
+  if not path:
+    path = default_path
     
   client = Client(config)
   if new_folder:
     path = os.path.join(path, new_folder)
-    client.mkdir(path)    
+    client.mkdir(path)
   
   for document in bundle:
     file_path = document[key].path()
