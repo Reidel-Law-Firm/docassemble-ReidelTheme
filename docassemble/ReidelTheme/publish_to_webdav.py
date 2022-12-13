@@ -66,7 +66,7 @@ def publish_to_webdav(bundle:ALDocumentBundle,
     path = os.path.join(path, new_folder)
     client.mkdir(path)
   
-  for document in bundle:
+  for document in bundle.enabled_documents():
     file_path = document[key].path()
     base_name = os.path.splitext(os.path.basename(document.filename))[0]
     base_extension = os.path.splitext(file_path)[1]
