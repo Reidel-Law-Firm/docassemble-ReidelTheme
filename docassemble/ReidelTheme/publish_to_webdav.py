@@ -3,7 +3,7 @@ from docassemble.AssemblyLine.al_document import ALDocument, ALDocumentBundle
 import os
 from webdav3.client import Client
 from datetime import datetime
-from typing import Union
+from typing import Union, Optional
 
 __all__ = ["publish_to_webdav", "get_new_bundle_path_name"]
 
@@ -21,13 +21,13 @@ def get_new_bundle_path_name(bundle:ALDocumentBundle, user:Union[Individual, str
   return space_to_underscore(f"{os.path.splitext(bundle.filename)[0]}_{current_datetimestamp}_{user_string}")
 
 def publish_to_webdav(bundle:ALDocumentBundle, 
-                      path:str = None,
-                      new_folder:str = None,
+                      path:Optional[str] = None,
+                      new_folder:Optional[str] = None,
                       key:str = "final",
-                      config:str = "webdav",
-                      webdav_hostname:str = None, 
-                      webdav_login:str = None,
-                      webdav_password:str = None) -> None:
+                      config_str:str = "webdav",
+                      webdav_hostname:Optional[str] = None, 
+                      webdav_login:Optional[str] = None,
+                      webdav_password:Optional[str] = None) -> None:
   """Uploads the contents of an ALDocumentBundle to a webdav server.
   Optionally, specify the key and either the name of a dictionary in the
   docassemble global config or the webdav hostname, username, and password of a 
@@ -44,12 +44,12 @@ def publish_to_webdav(bundle:ALDocumentBundle,
   ```  
   """
   # Prevent Docassemble from running this multiple times (idempotency)
-  for document in bundle:
+  for document in bundle.enabled_documents():
     document[key].path()
     document.filename
     
-  if not webdav_login and config:
-    config = get_config(config, {})
+  if not webdav_login and config_str:
+    config = get_config(config_str, {})
     default_path = config.get("default_path", "/")
   else:
     config = {"webdav_hostname": webdav_hostname,
@@ -58,7 +58,7 @@ def publish_to_webdav(bundle:ALDocumentBundle,
              }
     default_path = "/"
   
-  if not path:
+  if path is None:
     path = default_path
     
   client = Client(config)
